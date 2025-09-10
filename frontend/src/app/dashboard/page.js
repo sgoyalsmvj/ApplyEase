@@ -2,9 +2,34 @@
 
 import { useEffect, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
+import { motion, AnimatePresence } from 'framer-motion'
+import {
+  User,
+  Briefcase,
+  MapPin,
+  DollarSign,
+  FileText,
+  Search,
+  Target,
+  TrendingUp,
+  BarChart3,
+  Upload,
+  Sparkles,
+  Settings,
+  LogOut,
+  Calendar,
+  Bell,
+  Heart,
+  Star,
+  Zap,
+  Clock,
+  Eye,
+} from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
 import { DatabaseService } from '@/lib/database'
 import { useSupabase } from '@/components/providers/supabase-provider'
+import { PageLayout } from '@/components/ui/page-layout'
+import { MagneticButton } from '@/components/ui/magnetic-button'
 
 export default function DashboardPage() {
   const { user, loading: authLoading, signOut } = useAuth()
@@ -49,12 +74,30 @@ export default function DashboardPage() {
 
   if (authLoading || loading) {
     return (
-      <div className='min-h-screen flex items-center justify-center'>
-        <div className='text-center'>
-          <div className='animate-spin rounded-full h-32 w-32 border-b-2 border-indigo-600'></div>
-          <p className='mt-4 text-gray-600'>Loading your dashboard...</p>
+      <PageLayout showNavigation={false} showFooter={false}>
+        <div className='min-h-screen flex items-center justify-center'>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+            className='text-center'
+          >
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+              className='w-20 h-20 mx-auto mb-8 rounded-3xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center'
+            >
+              <Sparkles className='w-10 h-10 text-white' />
+            </motion.div>
+            <h2 className='text-2xl font-bold text-gradient mb-4'>
+              Loading Your Dashboard
+            </h2>
+            <p className='text-gray-600 dark:text-gray-300'>
+              Preparing your personalized workspace...
+            </p>
+          </motion.div>
         </div>
-      </div>
+      </PageLayout>
     )
   }
 
@@ -63,293 +106,337 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className='min-h-screen bg-gray-50'>
-      {/* Header */}
-      <header className='bg-white shadow'>
-        <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
-          <div className='flex justify-between items-center py-6'>
+    <PageLayout showNavigation={false} showFooter={false}>
+      <div className='min-h-screen px-container relative overflow-hidden'>
+        {/* Background Effects */}
+        <div className='absolute inset-0 -z-10'>
+          <div className='absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-pulse'></div>
+          <div className='absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-pulse delay-75'></div>
+          <div className='absolute top-1/3 right-1/3 w-64 h-64 bg-gradient-to-r from-green-400 to-blue-400 rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-pulse delay-150'></div>
+        </div>
+
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className='pt-8 pb-12'
+        >
+          <div className='flex flex-col md:flex-row md:items-center md:justify-between gap-6'>
             <div>
-              <h1 className='text-3xl font-bold text-gray-900'>
-                ApplyEase Dashboard
-              </h1>
-              <p className='text-gray-600'>
-                Welcome back, {profile?.name || user.email}!
-              </p>
+              <motion.h1
+                className='display-text text-4xl md:text-5xl mb-4'
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+              >
+                Welcome back,{' '}
+                <span className='text-gradient'>
+                  {profile?.name?.split(' ')[0] || 'there'}
+                </span>
+                ! 👋
+              </motion.h1>
+              <motion.p
+                className='text-xl text-gray-600 dark:text-gray-300'
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+              >
+                Ready to accelerate your career journey today?
+              </motion.p>
             </div>
-            <div className='flex items-center space-x-4'>
-              <button
+
+            <motion.div
+              className='flex items-center gap-4'
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+            >
+              <MagneticButton
                 onClick={() => router.push('/profile-setup')}
-                className='text-gray-700 hover:text-gray-900'
+                variant='outline'
+                className='flex items-center gap-2'
               >
-                Edit Profile
-              </button>
-              <button
+                <Settings className='w-4 h-4' />
+                Settings
+              </MagneticButton>
+              <MagneticButton
                 onClick={handleSignOut}
-                className='bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium'
+                variant='outline'
+                className='flex items-center gap-2 border-red-500 text-red-500 hover:bg-red-500 hover:text-white'
               >
+                <LogOut className='w-4 h-4' />
                 Sign Out
-              </button>
-            </div>
+              </MagneticButton>
+            </motion.div>
           </div>
-        </div>
-      </header>
+        </motion.div>
 
-      {/* Main Content */}
-      <main className='max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8'>
-        <div className='grid grid-cols-1 gap-6 lg:grid-cols-3'>
-          {/* Profile Summary */}
-          <div className='lg:col-span-2'>
-            <div className='bg-white overflow-hidden shadow rounded-lg'>
-              <div className='px-4 py-5 sm:p-6'>
-                <h3 className='text-lg leading-6 font-medium text-gray-900'>
-                  Profile Summary
+        {/* Main Content */}
+        <main className='pb-12'>
+          {/* Main Content Grid */}
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className='grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12'
+          >
+            {/* Profile Summary Card */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className='lg:col-span-2 glass p-8 rounded-3xl'
+            >
+              <div className='flex items-center justify-between mb-6'>
+                <h3 className='display-text text-2xl'>
+                  <User className='inline w-6 h-6 mr-3 text-purple-500' />
+                  Profile Overview
                 </h3>
-                <div className='mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2'>
-                  <div>
-                    <dt className='text-sm font-medium text-gray-500'>Role</dt>
-                    <dd className='mt-1 text-sm text-gray-900'>
-                      {profile?.role || 'Not specified'}
-                    </dd>
+                <MagneticButton
+                  onClick={() => router.push('/profile-setup')}
+                  variant='outline'
+                  className='text-sm'
+                >
+                  <Settings className='w-4 h-4 mr-2' />
+                  Edit
+                </MagneticButton>
+              </div>
+
+              <div className='grid grid-cols-1 sm:grid-cols-2 gap-6'>
+                <div className='group'>
+                  <div className='flex items-center mb-2'>
+                    <Briefcase className='w-4 h-4 mr-2 text-blue-500' />
+                    <span className='text-sm font-semibold text-gray-600 dark:text-gray-300'>
+                      Role
+                    </span>
                   </div>
-                  <div>
-                    <dt className='text-sm font-medium text-gray-500'>
+                  <p className='text-lg font-medium text-gray-900 dark:text-gray-100 group-hover:text-gradient transition-all duration-300'>
+                    {profile?.role || 'Not specified'}
+                  </p>
+                </div>
+
+                <div className='group'>
+                  <div className='flex items-center mb-2'>
+                    <TrendingUp className='w-4 h-4 mr-2 text-green-500' />
+                    <span className='text-sm font-semibold text-gray-600 dark:text-gray-300'>
                       Experience
-                    </dt>
-                    <dd className='mt-1 text-sm text-gray-900'>
-                      {profile?.experience_years
-                        ? `${profile.experience_years} years`
-                        : 'Not specified'}
-                    </dd>
+                    </span>
                   </div>
-                  <div>
-                    <dt className='text-sm font-medium text-gray-500'>
+                  <p className='text-lg font-medium text-gray-900 dark:text-gray-100 group-hover:text-gradient transition-all duration-300'>
+                    {profile?.experience_years
+                      ? `${profile.experience_years} years`
+                      : 'Not specified'}
+                  </p>
+                </div>
+
+                <div className='group'>
+                  <div className='flex items-center mb-2'>
+                    <MapPin className='w-4 h-4 mr-2 text-orange-500' />
+                    <span className='text-sm font-semibold text-gray-600 dark:text-gray-300'>
                       Location
-                    </dt>
-                    <dd className='mt-1 text-sm text-gray-900'>
-                      {profile?.location || 'Not specified'}
-                    </dd>
+                    </span>
                   </div>
-                  <div>
-                    <dt className='text-sm font-medium text-gray-500'>
+                  <p className='text-lg font-medium text-gray-900 dark:text-gray-100 group-hover:text-gradient transition-all duration-300'>
+                    {profile?.location || 'Not specified'}
+                  </p>
+                </div>
+
+                <div className='group'>
+                  <div className='flex items-center mb-2'>
+                    <DollarSign className='w-4 h-4 mr-2 text-emerald-500' />
+                    <span className='text-sm font-semibold text-gray-600 dark:text-gray-300'>
                       Salary Range
-                    </dt>
-                    <dd className='mt-1 text-sm text-gray-900'>
-                      {profile?.salary_min && profile?.salary_max
-                        ? `$${profile.salary_min.toLocaleString()} - $${profile.salary_max.toLocaleString()}`
-                        : 'Not specified'}
-                    </dd>
+                    </span>
                   </div>
+                  <p className='text-lg font-medium text-gray-900 dark:text-gray-100 group-hover:text-gradient transition-all duration-300'>
+                    {profile?.salary_min && profile?.salary_max
+                      ? `$${profile.salary_min.toLocaleString()} - $${profile.salary_max.toLocaleString()}`
+                      : 'Not specified'}
+                  </p>
                 </div>
+              </div>
 
-                {profile?.skills && profile.skills.length > 0 && (
-                  <div className='mt-5'>
-                    <dt className='text-sm font-medium text-gray-500'>
+              {profile?.skills && profile.skills.length > 0 && (
+                <div className='mt-6'>
+                  <div className='flex items-center mb-4'>
+                    <Zap className='w-4 h-4 mr-2 text-purple-500' />
+                    <span className='text-sm font-semibold text-gray-600 dark:text-gray-300'>
                       Skills
-                    </dt>
-                    <dd className='mt-1'>
-                      <div className='flex flex-wrap gap-2'>
-                        {profile.skills.map((skill, index) => (
-                          <span
-                            key={index}
-                            className='inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800'
-                          >
-                            {skill}
-                          </span>
-                        ))}
-                      </div>
-                    </dd>
+                    </span>
                   </div>
-                )}
-
-                {profile?.bio && (
-                  <div className='mt-5'>
-                    <dt className='text-sm font-medium text-gray-500'>Bio</dt>
-                    <dd className='mt-1 text-sm text-gray-900'>
-                      {profile.bio}
-                    </dd>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Quick Actions */}
-            <div className='mt-6 bg-white overflow-hidden shadow rounded-lg'>
-              <div className='px-4 py-5 sm:p-6'>
-                <h3 className='text-lg leading-6 font-medium text-gray-900'>
-                  Quick Actions
-                </h3>
-                <div className='mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3'>
-                  <button className='relative p-6 bg-gray-50 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500'>
-                    <div>
-                      <span className='rounded-lg inline-flex p-3 bg-indigo-600 text-white'>
-                        <svg
-                          className='w-6 h-6'
-                          fill='none'
-                          stroke='currentColor'
-                          viewBox='0 0 24 24'
-                        >
-                          <path
-                            strokeLinecap='round'
-                            strokeLinejoin='round'
-                            strokeWidth='2'
-                            d='M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'
-                          />
-                        </svg>
-                      </span>
-                    </div>
-                    <div className='mt-4'>
-                      <h3 className='text-lg font-medium text-gray-900'>
-                        Upload Resume
-                      </h3>
-                      <p className='mt-2 text-sm text-gray-500'>
-                        Add your resume for AI-powered tailoring
-                      </p>
-                    </div>
-                  </button>
-
-                  <button className='relative p-6 bg-gray-50 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500'>
-                    <div>
-                      <span className='rounded-lg inline-flex p-3 bg-green-600 text-white'>
-                        <svg
-                          className='w-6 h-6'
-                          fill='none'
-                          stroke='currentColor'
-                          viewBox='0 0 24 24'
-                        >
-                          <path
-                            strokeLinecap='round'
-                            strokeLinejoin='round'
-                            strokeWidth='2'
-                            d='M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 012 2v6a2 2 0 01-2 2H8a2 2 0 01-2-2V8a2 2 0 012-2z'
-                          />
-                        </svg>
-                      </span>
-                    </div>
-                    <div className='mt-4'>
-                      <h3 className='text-lg font-medium text-gray-900'>
-                        Find Jobs
-                      </h3>
-                      <p className='mt-2 text-sm text-gray-500'>
-                        Discover personalized job matches
-                      </p>
-                    </div>
-                  </button>
-
-                  <button className='relative p-6 bg-gray-50 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500'>
-                    <div>
-                      <span className='rounded-lg inline-flex p-3 bg-purple-600 text-white'>
-                        <svg
-                          className='w-6 h-6'
-                          fill='none'
-                          stroke='currentColor'
-                          viewBox='0 0 24 24'
-                        >
-                          <path
-                            strokeLinecap='round'
-                            strokeLinejoin='round'
-                            strokeWidth='2'
-                            d='M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z'
-                          />
-                        </svg>
-                      </span>
-                    </div>
-                    <div className='mt-4'>
-                      <h3 className='text-lg font-medium text-gray-900'>
-                        AI Insights
-                      </h3>
-                      <p className='mt-2 text-sm text-gray-500'>
-                        Get personalized career recommendations
-                      </p>
-                    </div>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Sidebar */}
-          <div className='space-y-6'>
-            {/* Stats */}
-            <div className='bg-white overflow-hidden shadow rounded-lg'>
-              <div className='p-5'>
-                <div className='flex items-center'>
-                  <div className='flex-shrink-0'>
-                    <svg
-                      className='h-8 w-8 text-gray-400'
-                      fill='none'
-                      stroke='currentColor'
-                      viewBox='0 0 24 24'
-                    >
-                      <path
-                        strokeLinecap='round'
-                        strokeLinejoin='round'
-                        strokeWidth='2'
-                        d='M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z'
-                      />
-                    </svg>
-                  </div>
-                  <div className='ml-5 w-0 flex-1'>
-                    <dl>
-                      <dt className='text-sm font-medium text-gray-500 truncate'>
-                        Applications
-                      </dt>
-                      <dd className='text-lg font-medium text-gray-900'>0</dd>
-                    </dl>
+                  <div className='flex flex-wrap gap-2'>
+                    {profile.skills.map((skill, index) => (
+                      <motion.span
+                        key={index}
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.3, delay: index * 0.1 }}
+                        whileHover={{ scale: 1.05 }}
+                        className='px-3 py-1 rounded-xl text-sm font-medium glass border border-purple-200 dark:border-purple-700 text-purple-600 dark:text-purple-400 hover:bg-purple-100 dark:hover:bg-purple-900/50 transition-all duration-300'
+                      >
+                        {skill}
+                      </motion.span>
+                    ))}
                   </div>
                 </div>
-              </div>
-            </div>
+              )}
 
-            <div className='bg-white overflow-hidden shadow rounded-lg'>
-              <div className='p-5'>
-                <div className='flex items-center'>
-                  <div className='flex-shrink-0'>
-                    <svg
-                      className='h-8 w-8 text-gray-400'
-                      fill='none'
-                      stroke='currentColor'
-                      viewBox='0 0 24 24'
-                    >
-                      <path
-                        strokeLinecap='round'
-                        strokeLinejoin='round'
-                        strokeWidth='2'
-                        d='M13 7h8m0 0v8m0-8l-8 8-4-4-6 6'
-                      />
-                    </svg>
+              {profile?.bio && (
+                <div className='mt-6'>
+                  <div className='flex items-center mb-4'>
+                    <FileText className='w-4 h-4 mr-2 text-blue-500' />
+                    <span className='text-sm font-semibold text-gray-600 dark:text-gray-300'>
+                      Bio
+                    </span>
                   </div>
-                  <div className='ml-5 w-0 flex-1'>
-                    <dl>
-                      <dt className='text-sm font-medium text-gray-500 truncate'>
-                        Match Score
-                      </dt>
-                      <dd className='text-lg font-medium text-gray-900'>-</dd>
-                    </dl>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Recent Activity */}
-            <div className='bg-white overflow-hidden shadow rounded-lg'>
-              <div className='px-4 py-5 sm:p-6'>
-                <h3 className='text-lg leading-6 font-medium text-gray-900'>
-                  Recent Activity
-                </h3>
-                <div className='mt-5'>
-                  <p className='text-sm text-gray-500'>
-                    No recent activity yet.
+                  <p className='text-gray-700 dark:text-gray-300 leading-relaxed'>
+                    {profile.bio}
                   </p>
-                  <p className='text-sm text-gray-500 mt-2'>
-                    Upload your resume or start applying to jobs to see your
-                    activity here.
+                </div>
+              )}
+            </motion.div>
+
+            {/* Quick Stats Card */}
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+              className='glass p-6 rounded-3xl'
+            >
+              <h3 className='display-text text-xl mb-6'>
+                <BarChart3 className='inline w-5 h-5 mr-2 text-green-500' />
+                Quick Stats
+              </h3>
+
+              <div className='space-y-6'>
+                <div className='text-center'>
+                  <motion.div
+                    className='w-16 h-16 mx-auto mb-3 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center'
+                    whileHover={{ scale: 1.1, rotate: 5 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <Target className='w-8 h-8 text-white' />
+                  </motion.div>
+                  <p className='text-2xl font-bold text-gradient'>0</p>
+                  <p className='text-sm text-gray-600 dark:text-gray-400'>
+                    Applications Sent
+                  </p>
+                </div>
+
+                <div className='text-center'>
+                  <motion.div
+                    className='w-16 h-16 mx-auto mb-3 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center'
+                    whileHover={{ scale: 1.1, rotate: -5 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <Heart className='w-8 h-8 text-white' />
+                  </motion.div>
+                  <p className='text-2xl font-bold text-gradient'>0</p>
+                  <p className='text-sm text-gray-600 dark:text-gray-400'>
+                    Favorites Saved
+                  </p>
+                </div>
+
+                <div className='text-center'>
+                  <motion.div
+                    className='w-16 h-16 mx-auto mb-3 rounded-2xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center'
+                    whileHover={{ scale: 1.1, rotate: 5 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <Star className='w-8 h-8 text-white' />
+                  </motion.div>
+                  <p className='text-2xl font-bold text-gradient'>0</p>
+                  <p className='text-sm text-gray-600 dark:text-gray-400'>
+                    Profile Views
                   </p>
                 </div>
               </div>
+
+              <motion.div
+                className='mt-6 p-4 rounded-2xl bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-200 dark:border-purple-800'
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 1 }}
+              >
+                <div className='flex items-center mb-2'>
+                  <Sparkles className='w-4 h-4 mr-2 text-purple-500' />
+                  <span className='text-sm font-semibold text-purple-600 dark:text-purple-400'>
+                    Pro Tip
+                  </span>
+                </div>
+                <p className='text-sm text-gray-600 dark:text-gray-300'>
+                  Complete your profile to get 10x more visibility from
+                  recruiters!
+                </p>
+              </motion.div>
+            </motion.div>
+          </motion.div>
+
+          {/* Recent Activity Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+            className='glass p-8 rounded-3xl'
+          >
+            <div className='flex items-center justify-between mb-6'>
+              <h3 className='display-text text-2xl'>
+                <Clock className='inline w-6 h-6 mr-3 text-orange-500' />
+                Recent Activity
+              </h3>
+              <MagneticButton variant='outline' className='text-sm'>
+                <Eye className='w-4 h-4 mr-2' />
+                View All
+              </MagneticButton>
             </div>
-          </div>
-        </div>
-      </main>
-    </div>
+
+            <div className='text-center py-12'>
+              <motion.div
+                className='w-20 h-20 mx-auto mb-6 rounded-3xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center'
+                animate={{
+                  y: [0, -10, 0],
+                  rotate: [0, 5, -5, 0],
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                }}
+              >
+                <Briefcase className='w-10 h-10 text-purple-500' />
+              </motion.div>
+
+              <h4 className='text-xl font-semibold mb-3 text-gray-900 dark:text-gray-100'>
+                Ready to Start Your Journey?
+              </h4>
+              <p className='text-gray-600 dark:text-gray-300 mb-6 max-w-md mx-auto'>
+                Complete your profile and start applying to see your activity
+                here. The perfect job is waiting for you!
+              </p>
+
+              <div className='flex flex-col sm:flex-row gap-4 justify-center'>
+                <MagneticButton
+                  className='group'
+                  onClick={() => router.push('/jobs')}
+                >
+                  <Search className='w-4 h-4 mr-2 group-hover:rotate-12 transition-transform duration-300' />
+                  Find Jobs
+                </MagneticButton>
+
+                <MagneticButton
+                  variant='outline'
+                  className='group'
+                  onClick={() => router.push('/profile-setup')}
+                >
+                  <Upload className='w-4 h-4 mr-2 group-hover:scale-110 transition-transform duration-300' />
+                  Upload Resume
+                </MagneticButton>
+              </div>
+            </div>
+          </motion.div>
+        </main>
+      </div>
+    </PageLayout>
   )
 }
