@@ -11,7 +11,7 @@ export class DatabaseService {
       .from('profiles')
       .insert([
         {
-          user_id: userId,
+          id: userId,
           ...profileData,
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
@@ -27,7 +27,7 @@ export class DatabaseService {
     const { data, error } = await this.supabase
       .from('profiles')
       .select('*')
-      .eq('user_id', userId)
+      .eq('id', userId)
       .single()
 
     if (error && error.code !== 'PGRST116') throw error // PGRST116 = no rows returned
@@ -41,7 +41,7 @@ export class DatabaseService {
         ...updates,
         updated_at: new Date().toISOString(),
       })
-      .eq('user_id', userId)
+      .eq('id', userId)
       .select()
 
     if (error) throw error

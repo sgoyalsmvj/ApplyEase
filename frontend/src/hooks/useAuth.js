@@ -36,7 +36,8 @@ export function useAuth() {
     loading,
     signIn: (email, password) =>
       supabase.auth.signInWithPassword({ email, password }),
-    signUp: (email, password) => supabase.auth.signUp({ email, password }),
+    signUp: (email, password, options = {}) =>
+      supabase.auth.signUp({ email, password, options }),
     signOut: () => supabase.auth.signOut(),
     signInWithProvider: provider => supabase.auth.signInWithOAuth({ provider }),
   }
