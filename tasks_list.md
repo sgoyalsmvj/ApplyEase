@@ -14,15 +14,15 @@
 
 ## *2. Authentication & User Profile*
 
-* [ ] Implement Supabase Auth (Google, GitHub, email/password).
-* [ ] Create users table in Supabase (id, email, created\_at).
-* [ ] Build /login and /signup pages with Supabase hooks.
-* [ ] Add middleware for protected routes (/dashboard).
-* [ ] Profile setup page:
+* [x] Implement Supabase Auth (Google, GitHub, email/password).
+* [x] Create users table in Supabase (id, email, created\_at).
+* [x] Build /login and /signup pages with Supabase hooks.
+* [x] Add middleware for protected routes (/dashboard).
+* [x] Profile setup page:
 
-  * [ ] Create profiles table (user\_id, name, role, salary, location, etc.).
-  * [ ] UI form to collect preferences.
-  * [ ] API route to save preferences to Supabase.
+  * [x] Create profiles table (user\_id, name, role, salary, location, etc.).
+  * [x] UI form to collect preferences.
+  * [x] API route to save preferences to Supabase.
 
 ---
 

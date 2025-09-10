@@ -13,17 +13,6 @@ export default function DashboardPage() {
   const [profile, setProfile] = useState(null)
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    if (!authLoading && !user) {
-      router.push('/login')
-      return
-    }
-
-    if (user) {
-      loadProfile()
-    }
-  }, [user, authLoading, router, loadProfile])
-
   const loadProfile = useCallback(async () => {
     try {
       const db = new DatabaseService(supabase)
@@ -41,6 +30,17 @@ export default function DashboardPage() {
       setLoading(false)
     }
   }, [user?.id, supabase, router])
+
+  useEffect(() => {
+    if (!authLoading && !user) {
+      router.push('/login')
+      return
+    }
+
+    if (user) {
+      loadProfile()
+    }
+  }, [user, authLoading, router, loadProfile])
 
   const handleSignOut = async () => {
     await signOut()
