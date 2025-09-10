@@ -4,10 +4,10 @@
 
 ## *1. Project Setup*
 
-* [x] Initialize Next.js project with TypeScript + TailwindCSS.
+* [x] Initialize Next.js project with TailwindCSS.
 * [x] Setup Supabase client (auth, DB, storage).
-* [x] Create .env for Supabase + AI keys.
-* [x] Configure ESLint + Prettier.
+* [ ] Create .env for Supabase + AI keys.
+* [ ] Configure ESLint + Prettier.
 * [ ] Deploy starter app to Vercel.
 
 ---
