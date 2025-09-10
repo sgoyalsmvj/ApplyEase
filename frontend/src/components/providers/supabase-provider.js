@@ -1,10 +1,10 @@
-"use client";
+'use client'
 
-import { createContext, useContext, useEffect, useState } from "react";
-import { createBrowserClient } from "@supabase/ssr";
-import { useRouter } from "next/navigation";
+import { createContext, useContext, useEffect, useState } from 'react'
+import { createBrowserClient } from '@supabase/ssr'
+import { useRouter } from 'next/navigation'
 
-const Context = createContext(undefined);
+const Context = createContext(undefined)
 
 export default function SupabaseProvider({ children }) {
   const [supabase] = useState(() =>
@@ -12,38 +12,38 @@ export default function SupabaseProvider({ children }) {
       process.env.NEXT_PUBLIC_SUPABASE_URL,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
     )
-  );
-  const router = useRouter();
+  )
+  const router = useRouter()
 
   useEffect(() => {
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === "SIGNED_IN") {
-        router.push("/dashboard");
+    } = supabase.auth.onAuthStateChange(event => {
+      if (event === 'SIGNED_IN') {
+        router.push('/dashboard')
       }
-      if (event === "SIGNED_OUT") {
-        router.push("/");
+      if (event === 'SIGNED_OUT') {
+        router.push('/')
       }
-      router.refresh();
-    });
+      router.refresh()
+    })
 
-    return () => subscription.unsubscribe();
-  }, [router, supabase]);
+    return () => subscription.unsubscribe()
+  }, [router, supabase])
 
   return (
     <Context.Provider value={{ supabase }}>
       <>{children}</>
     </Context.Provider>
-  );
+  )
 }
 
 export const useSupabase = () => {
-  const context = useContext(Context);
+  const context = useContext(Context)
 
   if (context === undefined) {
-    throw new Error("useSupabase must be used inside SupabaseProvider");
+    throw new Error('useSupabase must be used inside SupabaseProvider')
   }
 
-  return context;
-};
+  return context
+}

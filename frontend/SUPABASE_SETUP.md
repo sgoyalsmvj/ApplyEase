@@ -1,6 +1,7 @@
 # Supabase Setup Guide
 
 ## Overview
+
 This project uses Supabase for authentication, database, and file storage. The setup includes:
 
 - **Authentication**: Email/password and OAuth (Google, GitHub)
@@ -10,6 +11,7 @@ This project uses Supabase for authentication, database, and file storage. The s
 ## Configuration Files
 
 ### Core Files (Different Use Cases)
+
 - `src/lib/supabase.js` - **Client-side** Supabase client (for React components)
 - `src/lib/supabase-server.js` - **Middleware** client (for auth routing)
 - `src/lib/supabase-server-component.js` - **Server Components & API Routes** client
@@ -17,18 +19,20 @@ This project uses Supabase for authentication, database, and file storage. The s
 
 ### When to Use Which File:
 
-| File | Use Case | Example |
-|------|----------|---------|
-| `supabase.js` | Client Components, Browser | `useEffect`, onClick handlers |
-| `supabase-server.js` | Middleware only | Route protection, session refresh |
-| `supabase-server-component.js` | Server Components, API Routes | `page.js`, `route.js` files |
+| File                           | Use Case                      | Example                           |
+| ------------------------------ | ----------------------------- | --------------------------------- |
+| `supabase.js`                  | Client Components, Browser    | `useEffect`, onClick handlers     |
+| `supabase-server.js`           | Middleware only               | Route protection, session refresh |
+| `supabase-server-component.js` | Server Components, API Routes | `page.js`, `route.js` files       |
 
 ### Components & Hooks
+
 - `src/components/providers/supabase-provider.js` - React context provider
 - `src/hooks/useAuth.js` - Authentication hook
 - `src/lib/database.js` - Database operation helpers
 
 ### Configuration
+
 - `src/lib/supabase-config.js` - Constants and schema definitions
 - `.env.local` - Environment variables (not committed)
 
@@ -51,6 +55,7 @@ SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
 ## Usage Examples
 
 ### Client-Side Authentication
+
 ```javascript
 import { useAuth } from '@/hooks/useAuth'
 
@@ -61,6 +66,7 @@ function LoginComponent() {
 ```
 
 ### Server Component Database Access
+
 ```javascript
 import { createClient } from '@/lib/supabase-server-component'
 
@@ -72,6 +78,7 @@ export default async function ProfilePage() {
 ```
 
 ### API Route
+
 ```javascript
 import { createClient } from '@/lib/supabase-server-component'
 
@@ -83,6 +90,7 @@ export async function GET() {
 ```
 
 ### Database Operations
+
 ```javascript
 import { supabase } from '@/lib/supabase'
 import { DatabaseService } from '@/lib/database'
@@ -92,6 +100,7 @@ const profile = await db.getUserProfile(userId)
 ```
 
 ### File Upload
+
 ```javascript
 import { supabase } from '@/lib/supabase'
 import { SUPABASE_CONFIG } from '@/lib/supabase-config'
